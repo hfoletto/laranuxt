@@ -1,7 +1,7 @@
 <template>
   <div
     id="sidebar"
-    class="w-full sm:max-w-sm p-8 bg-gray-700 text-white"
+    class="w-full md:max-w-sm p-8 bg-gray-700 text-white"
   >
     <div class="px-2 mb-12">
       <img

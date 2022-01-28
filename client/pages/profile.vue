@@ -1,7 +1,7 @@
 <template>
   <main
     id="wrapper"
-    class="flex sm:m-12 shadow-2xl"
+    class="flex md:m-12 shadow-2xl flex-col md:flex-row"
   >
     <ProfileSidebar></ProfileSidebar>
     <ProfileContent></ProfileContent>
