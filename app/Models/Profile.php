@@ -29,16 +29,30 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Education[] $education
  * @property-read int|null $education_count
+ * @property string|null $phone_number
+ * @property string|null $introduction
+ * @property string|null $github_url
+ * @property string|null $linkedin_url
+ * @property string|null $twitter_url
+ * @property string|null $website_url
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereGithubUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereIntroduction($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereLinkedinUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereTwitterUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereWebsiteUrl($value)
+ * @property string $job_title
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereJobTitle($value)
  */
 class Profile extends Model
 {
     public function experience()
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Experience::class)->orderBy('from', 'desc');
     }
 
     public function education()
     {
-        return $this->hasMany(Education::class);
+        return $this->hasMany(Education::class)->orderBy('from', 'desc');
     }
 }
