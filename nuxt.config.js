@@ -36,6 +36,7 @@ export default {
   */
   plugins: [
     '~/plugins/mdi-vue.ts',
+    '~/plugins/format-date.ts',
   ],
   /*
   ** Auto import components

@@ -9,24 +9,26 @@
         alt="Profile Picture"
         class="rounded-full w-48 mx-auto mb-2"
       />
-      <h1 class="text-center text-3xl font-semibold mb-2">Dev Name</h1>
-      <h2 class="text-center text-xl font-light">Fullstack Developer</h2>
+      <h1 class="text-center text-3xl font-semibold mb-2">{{ full_name }}</h1>
+      <h2 class="text-center text-xl font-light">{{ profile.job_title }}</h2>
     </div>
 
     <div class="font-light text-lg px-2 mb-12">
       <h2 class="text-xl font-semibold mb-4">Contact</h2>
       <ProfileAboutItem
-        text="devmail@example.com"
+        :text="profile.email"
         icon="email"
-        href="mailto:devmail@example.com"
+        :href="'mailto:'+profile.email"
       />
       <ProfileAboutItem
-        text="+1 23 456 789"
+        v-if="profile.phone_number"
+        :text="profile.phone_number"
         icon="phone"
-        href="tel:+123456789"
+        :href="'tel:'+profile.phone_number"
       />
       <ProfileAboutItem
-        text="Dev Town, Dev Country"
+        v-if="profile.location"
+        :text="profile.location"
         icon="home"
       />
     </div>
@@ -34,25 +36,49 @@
     <div class="font-light text-lg px-2 mb-12">
       <h2 class="text-xl font-semibold mb-4">On the Web</h2>
       <ProfileAboutItem
+        v-if="profile.github_url"
         text="GitHub"
         icon="github"
-        href="https://github.com"
+        :href="profile.github_url"
       />
       <ProfileAboutItem
+        v-if="profile.linkedin_url"
         text="LinkedIn"
         icon="linkedin"
-        href="https://linkedin.com"
+        :href="profile.linkedin_url"
       />
       <ProfileAboutItem
+        v-if="profile.twitter_url"
         text="Twitter"
         icon="twitter"
-        href="https://twitter.com"
+        :href="profile.twitter_url"
       />
       <ProfileAboutItem
+        v-if="profile.website_url"
         text="Website"
         icon="web"
-        href="https://google.com"
+        :href="profile.website_url"
       />
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { PropType } from '@nuxtjs/composition-api'
+import { Profile } from '@/types/api'
+export default Vue.extend({
+  name: 'AboutItem',
+  props: {
+    profile: {
+      required: true,
+      type: Object as PropType<Profile>,
+    },
+  },
+  computed: {
+    full_name (): string {
+      return `${this.profile.first_name} ${this.profile.last_name}`
+    },
+  },
+})
+</script>
