@@ -19,10 +19,10 @@ class CreateExperiencesTable extends Migration
             $table->string('title');
             $table->string('company')->nullable();
             $table->string('location')->nullable();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->date('from');
-            $table->date('to');
-            $table->boolean('currently_working');
+            $table->date('to')->nullable();
+            $table->boolean('currently_working')->default(false);
             $table->timestamps();
         });
     }

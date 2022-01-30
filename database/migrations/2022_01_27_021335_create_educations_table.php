@@ -20,10 +20,10 @@ class CreateEducationsTable extends Migration
             $table->string('major');
             $table->string('degree');
             $table->string('location');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->date('from');
-            $table->date('to');
-            $table->boolean('currently_attending');
+            $table->date('to')->nullable();
+            $table->boolean('currently_attending')->default(false);
             $table->timestamps();
         });
     }
