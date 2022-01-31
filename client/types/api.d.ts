@@ -29,6 +29,7 @@ export interface User {
 export type Users = Array<User>
 
 export interface Profile {
+  id: number,
   first_name: string,
   last_name: string,
   job_title: string,

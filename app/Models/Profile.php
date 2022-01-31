@@ -46,6 +46,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Profile extends Model
 {
+
+    protected $fillable = [
+        'first_name', 'last_name', 'job_title', 'email',
+        'phone_number', 'location', 'introduction',
+        'github_url', 'linkedin_url', 'twitter_url', 'website_url'
+    ];
+
     public function experience()
     {
         return $this->hasMany(Experience::class)->orderBy('from', 'desc');
