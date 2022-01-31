@@ -16,7 +16,7 @@ import Vue from 'vue'
 import { Profile } from '@/types/api'
 export default Vue.extend({
   data () {
-    const profile: Profile | null = null
+    const profile: Profile = {} as Profile
     const loading: boolean = true
     return {
       loading,
