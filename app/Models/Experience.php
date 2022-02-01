@@ -38,6 +38,15 @@ use Illuminate\Database\Eloquent\Model;
 class Experience extends Model
 {
 
+    protected $fillable = [
+        'title',
+        'company',
+        'location',
+        'description',
+        'from',
+        'to'
+    ];
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);

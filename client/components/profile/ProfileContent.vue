@@ -7,20 +7,12 @@
     <hr class="my-8" />
     <div>
       <h2 class="text-3xl uppercase font-bold tracking-widest text-gray-700">Experience</h2>
-      <div v-for="experience in profile.experience" :key="experience.id" class="mt-8 pl-4 ml-4 border-l-4 border-gray-700">
-        <section class="mb-2 flex items-center">
-          <span class="text-xl font-bold text-gray-700">{{ experience.company }}</span>
-          <span v-if="experience.company" class="ml-4 text-gray-500">{{ experience.location }}</span>
-        </section>
-        <section class="mb-4 flex items-center">
-          <span class="font-semibold">{{ experience.title }}</span>
-          <span class="ml-4 text-gray-500">
-            {{ experience.from | formatDate }} -
-            {{ experience.currently_working ? 'Present' : $options.filters.formatDate(experience.to) }}
-          </span>
-        </section>
-        <p v-if="experience.description">{{ experience.description }}</p>
-      </div>
+      <Experience
+        v-for="experience in profile.experience"
+        :key="experience.id"
+        class="mt-8 pl-4 ml-4 border-l-4 border-gray-700"
+        :experience="experience"
+      />
     </div>
     <hr class="mt-8 mb-12" />
     <div>
@@ -47,8 +39,10 @@
 import Vue from 'vue'
 import { PropType } from '@nuxtjs/composition-api'
 import { Profile } from '@/types/api'
+import Experience from '@/components/profile/Experience.vue'
 export default Vue.extend({
   name: 'AboutItem',
+  components: { Experience },
   props: {
     profile: {
       required: true,

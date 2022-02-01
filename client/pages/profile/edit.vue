@@ -1,129 +1,155 @@
 <template>
   <LoadingSpinner v-if="fetching" class="my-8" />
-  <div v-else class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
-    <h1 class="p-8 text-3xl font-bold">
-      Editing Profile
-    </h1>
-    <form class="w-full" @submit.prevent="submit">
-      <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
-        <div class="lg:flex lg:items-center w-full">
-          <div class="w-full">
-            <ImageUpload
-              id="avatar"
-              v-model="photo"
-              :error="errors.photo"
-              class="pb-8 pr-6 w-full"
-              :current-image="profile.photo"
-              label="Photo"
-            />
+  <div v-else>
+    <div class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
+      <h1 class="p-8 text-3xl font-bold">
+        Editing Profile
+      </h1>
+      <form class="w-full" @submit.prevent="submit">
+        <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
+          <div class="lg:flex lg:items-center w-full">
+            <div class="w-full">
+              <ImageUpload
+                id="avatar"
+                v-model="photo"
+                :error="errors.photo"
+                class="pb-8 pr-6 w-full"
+                :current-image="profile.photo"
+                label="Photo"
+              />
+            </div>
+            <div class="w-full">
+              <TextInput
+                id="first_name"
+                :model-value.sync="profile.first_name"
+                :errors="errors.first_name"
+                class="pb-8 pr-6 w-full"
+                label="First name"
+                required
+              />
+              <TextInput
+                id="last_name"
+                :model-value.sync="profile.last_name"
+                :errors="errors.last_name"
+                class="pb-8 pr-6 w-full"
+                label="Last name"
+                required
+              />
+              <TextInput
+                id="job_title"
+                :model-value.sync="profile.job_title"
+                :errors="errors.job_title"
+                class="pb-8 pr-6 w-full"
+                label="Job Title"
+                required
+              />
+              <TextInput
+                id="email"
+                :model-value.sync="profile.email"
+                :errors="errors.email"
+                type="email"
+                class="pb-8 pr-6 w-full"
+                label="Email"
+                required
+              />
+            </div>
           </div>
-          <div class="w-full">
-            <TextInput
-              id="first_name"
-              :model-value.sync="profile.first_name"
-              :errors="errors.first_name"
-              class="pb-8 pr-6 w-full"
-              label="First name"
-              required
-            />
-            <TextInput
-              id="last_name"
-              :model-value.sync="profile.last_name"
-              :errors="errors.last_name"
-              class="pb-8 pr-6 w-full"
-              label="Last name"
-              required
-            />
-            <TextInput
-              id="job_title"
-              :model-value.sync="profile.job_title"
-              :errors="errors.job_title"
-              class="pb-8 pr-6 w-full"
-              label="Job Title"
-              required
-            />
-            <TextInput
-              id="email"
-              :model-value.sync="profile.email"
-              :errors="errors.email"
-              type="email"
-              class="pb-8 pr-6 w-full"
-              label="Email"
-              required
-            />
-          </div>
+          <TextInput
+            id="phone_number"
+            :model-value.sync="profile.phone_number"
+            :errors="errors.phone_number"
+            type="tel"
+            class="pb-8 pr-6 w-full lg:w-1/2"
+            label="Phone Number"
+          />
+          <TextInput
+            id="location"
+            :model-value.sync="profile.location"
+            :errors="errors.location"
+            class="pb-8 pr-6 w-full lg:w-1/2"
+            label="Location"
+          />
+          <TextareaInput
+            id="introduction"
+            :model-value.sync="profile.introduction"
+            :errors="errors.introduction"
+            class="pb-8 pr-6 w-full"
+            label="Introduction"
+            required
+          />
+          <h2 class="mt-8 mb-4 w-full font-bold text-2xl">On the web</h2>
+          <TextInput
+            id="github_url"
+            :model-value.sync="profile.github_url"
+            :errors="errors.github_url"
+            type="url"
+            class="pb-8 pr-6 w-full lg:w-1/2"
+            label="Github URL"
+          />
+          <TextInput
+            id="linkedin_url"
+            :model-value.sync="profile.linkedin_url"
+            :errors="errors.linkedin_url"
+            type="url"
+            class="pb-8 pr-6 w-full lg:w-1/2"
+            label="LinkedIn URL"
+          />
+          <TextInput
+            id="twitter_url"
+            :model-value.sync="profile.twitter_url"
+            :errors="errors.twitter_url"
+            type="url"
+            class="pb-8 pr-6 w-full lg:w-1/2"
+            label="Twitter URL"
+          />
+          <TextInput
+            id="website_url"
+            :model-value.sync="profile.website_url"
+            :errors="errors.website_url"
+            type="url"
+            class="pb-8 pr-6 w-full lg:w-1/2"
+            label="Website URL"
+          />
         </div>
-        <TextInput
-          id="phone_number"
-          :model-value.sync="profile.phone_number"
-          :errors="errors.phone_number"
-          type="tel"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Phone Number"
-        />
-        <TextInput
-          id="location"
-          :model-value.sync="profile.location"
-          :errors="errors.location"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Location"
-        />
-        <TextareaInput
-          id="introduction"
-          :model-value.sync="profile.introduction"
-          :errors="errors.introduction"
-          class="pb-8 pr-6 w-full"
-          label="Introduction"
-          required
-        />
-        <h2 class="mt-8 mb-4 w-full font-bold text-2xl">On the web</h2>
-        <TextInput
-          id="github_url"
-          :model-value.sync="profile.github_url"
-          :errors="errors.github_url"
-          type="url"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Github URL"
-        />
-        <TextInput
-          id="linkedin_url"
-          :model-value.sync="profile.linkedin_url"
-          :errors="errors.linkedin_url"
-          type="url"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="LinkedIn URL"
-        />
-        <TextInput
-          id="twitter_url"
-          :model-value.sync="profile.twitter_url"
-          :errors="errors.twitter_url"
-          type="url"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Twitter URL"
-        />
-        <TextInput
-          id="website_url"
-          :model-value.sync="profile.website_url"
-          :errors="errors.website_url"
-          type="url"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Website URL"
+        <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center flex-row-reverse">
+          <PushButton theme="indigo" type="submit" :disabled="submitting">
+            <mdicon v-if="submitting" name="loading" :size="18" class="animate-spin mr-2" />
+            {{ submitting ? 'Processing...' : 'Submit changes' }}
+          </PushButton>
+        </div>
+      </form>
+    </div>
+    <div class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
+      <h1 class="p-8 text-3xl font-bold">
+        Experience
+      </h1>
+
+      <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
+        <Experience
+          v-for="experience in profile.experience"
+          :key="experience.id"
+          class="pl-4 pr-6 mb-8 border-l-4 border-gray-700 w-full"
+          :experience="experience"
+          :profile-id="profile.id"
+          editable
+          @create="createExperience"
+          @update="updateExperience"
+          @delete="deleteExperience"
         />
       </div>
       <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center flex-row-reverse">
-        <PushButton theme="indigo" type="submit" :disabled="submitting">
-          <mdicon v-if="submitting" name="loading" :size="18" class="animate-spin mr-2" />
-          {{ submitting ? 'Processing...' : 'Submit changes' }}
-        </PushButton>
+        <PushButton theme="white" :disabled="!canAddNewExperience" @click="newExperience">Add experience</PushButton>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Profile } from '@/types/api'
+import { Profile, Experience as ExperienceType } from '@/types/api'
+import Experience from '@/components/profile/Experience.vue'
 export default Vue.extend({
+  components: { Experience },
   data () {
     const fetching: boolean = true
     const submitting: boolean = false
@@ -137,6 +163,11 @@ export default Vue.extend({
       errors,
       photo,
     }
+  },
+  computed: {
+    canAddNewExperience (): Boolean {
+      return (this.profile.experience[this.profile.experience.length - 1].id !== -1)
+    },
   },
   mounted () {
     this.fetchInfo()
@@ -153,17 +184,8 @@ export default Vue.extend({
       this.errors = {}
 
       const fields_to_submit = [
-        'first_name',
-        'last_name',
-        'job_title',
-        'email',
-        'phone_number',
-        'location',
-        'introduction',
-        'github_url',
-        'linkedin_url',
-        'twitter_url',
-        'website_url',
+        'first_name', 'last_name', 'job_title', 'email', 'phone_number', 'location',
+        'introduction', 'github_url', 'linkedin_url', 'twitter_url', 'website_url',
       ]
 
       const form_data = new FormData()
@@ -217,6 +239,33 @@ export default Vue.extend({
         .finally(() => {
           this.submitting = false
         })
+    },
+    newExperience (): void {
+      this.profile.experience.push({
+        id: -1,
+        title: '',
+        company: '',
+        location: '',
+        description: '',
+        from: '',
+        to: null,
+        currently_working: false,
+        created_at: new Date(),
+        updated_at: new Date(),
+      })
+    },
+    createExperience (experience: ExperienceType) {
+      this.profile.experience = this.profile.experience.filter(el => el.id !== -1)
+      this.profile.experience.push(experience)
+    },
+    updateExperience (experience: ExperienceType): void {
+      this.profile.experience = this.profile.experience.map((el) => {
+        if (el.id === experience.id) return experience
+        return el
+      })
+    },
+    deleteExperience (experience_id: Number): void {
+      this.profile.experience = this.profile.experience.filter(el => el.id !== experience_id)
     },
   },
 })
