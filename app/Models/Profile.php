@@ -43,6 +43,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Profile whereWebsiteUrl($value)
  * @property string $job_title
  * @method static \Illuminate\Database\Eloquent\Builder|Profile whereJobTitle($value)
+ * @property string|null $photo_path
+ * @property-read mixed $photo
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile wherePhotoPath($value)
  */
 class Profile extends Model
 {

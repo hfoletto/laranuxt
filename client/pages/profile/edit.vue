@@ -123,7 +123,6 @@
       <h1 class="p-8 text-3xl font-bold">
         Experience
       </h1>
-
       <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
         <Experience
           v-for="experience in profile.experience"
@@ -141,15 +140,37 @@
         <PushButton theme="white" :disabled="!canAddNewExperience" @click="newExperience">Add experience</PushButton>
       </div>
     </div>
+    <div class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
+      <h1 class="p-8 text-3xl font-bold">
+        Education
+      </h1>
+      <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
+        <Education
+          v-for="education in profile.education"
+          :key="education.id"
+          class="pl-4 pr-6 mb-8 border-l-4 border-gray-700 w-full"
+          :education="education"
+          :profile-id="profile.id"
+          editable
+          @create="createEducation"
+          @update="updateEducation"
+          @delete="deleteEducation"
+        />
+      </div>
+      <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center flex-row-reverse">
+        <PushButton theme="white" :disabled="!canAddNewEducation" @click="newEducation">Add education</PushButton>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Profile, Experience as ExperienceType } from '@/types/api'
+import { Profile, Experience as ExperienceType, Education as EducationType } from '@/types/api'
 import Experience from '@/components/profile/Experience.vue'
+import Education from "@/components/profile/Education.vue";
 export default Vue.extend({
-  components: { Experience },
+  components: {Education, Experience },
   data () {
     const fetching: boolean = true
     const submitting: boolean = false
@@ -167,6 +188,9 @@ export default Vue.extend({
   computed: {
     canAddNewExperience (): Boolean {
       return (this.profile.experience[this.profile.experience.length - 1].id !== -1)
+    },
+    canAddNewEducation (): Boolean {
+      return (this.profile.education[this.profile.education.length - 1].id !== -1)
     },
   },
   mounted () {
@@ -266,6 +290,34 @@ export default Vue.extend({
     },
     deleteExperience (experience_id: Number): void {
       this.profile.experience = this.profile.experience.filter(el => el.id !== experience_id)
+    },
+    newEducation (): void {
+      this.profile.education.push({
+        id: -1,
+        institution: '',
+        location: '',
+        degree: '',
+        major: '',
+        description: '',
+        from: '',
+        to: null,
+        currently_attending: false,
+        created_at: new Date(),
+        updated_at: new Date(),
+      })
+    },
+    createEducation (education: EducationType) {
+      this.profile.education = this.profile.education.filter(el => el.id !== -1)
+      this.profile.education.push(education)
+    },
+    updateEducation (education: EducationType): void {
+      this.profile.education = this.profile.education.map((el) => {
+        if (el.id === education.id) return education
+        return el
+      })
+    },
+    deleteEducation (education_id: Number): void {
+      this.profile.education = this.profile.education.filter(el => el.id !== education_id)
     },
   },
 })

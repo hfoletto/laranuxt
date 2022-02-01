@@ -13,33 +13,44 @@
     </div>
     <div class="p-8 pl-2 -mr-6 -mb-8 flex flex-wrap">
       <TextInput
-        id="title"
-        :model-value.sync="editExperience.title"
-        :errors="errors.title"
+        id="institution"
+        :model-value.sync="editEducation.institution"
+        :errors="errors.institution"
         type="text"
-        class="pb-8 pr-6 w-full lg:w-1/3"
-        label="Job title"
+        class="pb-8 pr-6 w-full lg:w-1/2"
+        label="Institution name"
         required
       />
       <TextInput
-        id="company"
-        :model-value.sync="editExperience.company"
-        :errors="errors.company"
-        type="text"
-        class="pb-8 pr-6 w-full lg:w-1/3"
-        label="Company name"
-      />
-      <TextInput
         id="location"
-        :model-value.sync="editExperience.location"
+        :model-value.sync="editEducation.location"
         :errors="errors.location"
         type="text"
-        class="pb-8 pr-6 w-full lg:w-1/3"
-        label="Company location"
+        class="pb-8 pr-6 w-full lg:w-1/2"
+        label="Institution location"
+        required
+      />
+      <TextInput
+        id="degree"
+        :model-value.sync="editEducation.degree"
+        :errors="errors.degree"
+        type="text"
+        class="pb-8 pr-6 w-full lg:w-1/2"
+        label="Degree"
+        required
+      />
+      <TextInput
+        id="major"
+        :model-value.sync="editEducation.major"
+        :errors="errors.major"
+        type="text"
+        class="pb-8 pr-6 w-full lg:w-1/2"
+        label="Major"
+        required
       />
       <textarea-input
         id="description"
-        :model-value.sync="editExperience.description"
+        :model-value.sync="editEducation.description"
         :errors="errors.description"
         type="tel"
         class="pb-8 pr-6 w-full"
@@ -47,7 +58,7 @@
       />
       <TextInput
         id="from"
-        :model-value.sync="editExperience.from"
+        :model-value.sync="editEducation.from"
         :errors="errors.from"
         type="date"
         class="pb-8 pr-6 w-full lg:w-1/2"
@@ -56,7 +67,7 @@
       />
       <TextInput
         id="to"
-        :model-value.sync="editExperience.to"
+        :model-value.sync="editEducation.to"
         :errors="errors.to"
         type="date"
         class="pb-8 pr-6 w-full lg:w-1/2"
@@ -78,12 +89,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import { PropType } from '@nuxtjs/composition-api'
-import { Experience } from '~/client/types/api'
+import { Education } from '~/client/types/api'
 export default Vue.extend({
   props: {
-    experience: {
+    education: {
       required: true,
-      type: Object as PropType<Experience>,
+      type: Object as PropType<Education>,
     },
     profileId: {
       required: true,
@@ -94,9 +105,9 @@ export default Vue.extend({
     const errors: Object = {}
     const isBeingEdited: boolean = true
     const submitting: boolean = false
-    const editExperience: Experience = {} as Experience
+    const editEducation: Education = {} as Education
     return {
-      editExperience,
+      editEducation,
       isBeingEdited,
       errors,
       submitting,
@@ -104,14 +115,14 @@ export default Vue.extend({
   },
   computed: {
     isNew (): Boolean {
-      return (this.experience.id === -1)
+      return (this.education.id === -1)
     },
     submitLabel (): string {
-      return this.isNew ? 'Create experience' : 'Update experience'
+      return this.isNew ? 'Create education' : 'Update education'
     },
   },
   created () {
-    this.editExperience = { ...this.experience }
+    this.editEducation = { ...this.education }
   },
   methods: {
     submit (): void {
@@ -119,19 +130,19 @@ export default Vue.extend({
       this.errors = {}
 
       const data = {
-        ...this.editExperience,
+        ...this.editEducation,
         profile_id: this.profileId,
       }
 
       this.$axios({
         method: this.isNew ? 'post' : 'put',
-        url: this.isNew ? 'experiences' : `experiences/${this.experience.id}`,
+        url: this.isNew ? 'educations' : `educations/${this.education.id}`,
         data,
       })
         .then((data) => {
           this.$toast.show({
             type: 'success',
-            message: this.isNew ? 'Experience added' : 'Experience updated',
+            message: this.isNew ? 'Education added' : 'Education updated',
             timeout: 6,
           })
           this.$emit('close')
@@ -162,15 +173,15 @@ export default Vue.extend({
       this.submitting = true
       this.errors = {}
 
-      this.$axios.delete(`experiences/${this.experience.id}`)
+      this.$axios.delete(`educations/${this.education.id}`)
         .then(() => {
           this.$toast.show({
             type: 'success',
-            message: 'Experience deleted',
+            message: 'Education deleted',
             timeout: 6,
           })
           this.$emit('close')
-          this.$emit('delete', this.experience.id)
+          this.$emit('delete', this.education.id)
         })
         .catch(() => {
           this.$toast.show({
@@ -186,12 +197,12 @@ export default Vue.extend({
     },
     openDeleteModal (): void {
       if (this.isNew)
-        this.$emit('delete', this.experience.id)
+        this.$emit('delete', this.education.id)
       else
         this.$modal.show({
           type: 'danger',
-          title: 'Deleting experience',
-          body: `Are you sure you want to delete the ${this.editExperience.title} at ${this.editExperience.company} experience?`,
+          title: 'Deleting education',
+          body: `Are you sure you want to delete the education at ${this.editEducation.institution}?`,
           primary: {
             label: 'Confirm',
             theme: 'red',

@@ -25,6 +25,7 @@ class ExperienceController extends Controller
 
         $profile = Profile::find($request->input('profile_id'));
 
+        /** @var Experience $experience */
         $experience = $profile->experience()->create($request->only([
             'title', 'company', 'location', 'description', 'from', 'to'
         ]));

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\EducationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,4 @@ Route::get('/error', [Controller::class, 'error'])->name('error route');
 
 Route::resource('profiles', ProfileController::class);
 Route::resource('experiences', ExperienceController::class);
+Route::resource('educations', EducationController::class);

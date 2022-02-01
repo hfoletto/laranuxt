@@ -42,6 +42,16 @@ class Education extends Model
 
     protected $table = 'educations';
 
+    protected $fillable = [
+        'institution',
+        'location',
+        'degree',
+        'major',
+        'description',
+        'from',
+        'to'
+    ];
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);
