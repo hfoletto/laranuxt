@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
@@ -26,6 +27,7 @@ Route::get('/example', [Controller::class, 'example'])->name('example route');
 Route::get('/error', [Controller::class, 'error'])->name('error route');
 
 Route::post('/login', LoginController::class);
+Route::post('/logout', LogoutController::class);
 
 Route::get('/user', [UserController::class, 'me']);
 

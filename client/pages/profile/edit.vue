@@ -1,10 +1,18 @@
 <template>
-  <LoadingSpinner v-if="fetching" class="my-8" />
+  <LoadingSpinner v-if="loading" class="my-8" />
   <div v-else>
     <div class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
-      <h1 class="p-8 text-3xl font-bold">
-        Editing Profile
-      </h1>
+      <div class="p-8 flex align-center justify-between border-b border-gray-100">
+        <h1 class="text-3xl font-bold">
+          <a href="/profile" class="text-indigo-400 hover:text-indigo-600">Profile</a>
+          <span class="text-indigo-400 font-medium">/</span>
+          Edit
+        </h1>
+        <PushButton theme="white" @click="logout">
+          Sign out
+          <mdicon name="logout" :size="18" class="ml-2" />
+        </PushButton>
+      </div>
       <form class="w-full" @submit.prevent="submit">
         <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
           <div class="lg:flex lg:items-center w-full">
@@ -173,13 +181,13 @@ export default Vue.extend({
   components: { Education, Experience },
   middleware: 'auth',
   data () {
-    const fetching: boolean = true
+    const loading: boolean = true
     const submitting: boolean = false
     const profile: Profile = {} as Profile
     const errors: Object = {}
     const photo: File | null = null
     return {
-      fetching,
+      loading,
       submitting,
       profile,
       errors,
@@ -197,7 +205,7 @@ export default Vue.extend({
   mounted () {
     this.fetchInfo()
       .finally(() => {
-        this.fetching = false
+        this.loading = false
       })
   },
   methods: {
@@ -323,6 +331,10 @@ export default Vue.extend({
     },
     deleteEducation (education_id: Number): void {
       this.profile.education = this.profile.education.filter(el => el.id !== education_id)
+    },
+    logout ():void {
+      this.loading = true
+      this.$auth.logout()
     },
   },
 })
