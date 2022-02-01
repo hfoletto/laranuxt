@@ -129,6 +129,27 @@
     </div>
     <div class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
       <h1 class="p-8 text-3xl font-bold">
+        Skills
+      </h1>
+      <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
+        <Skill
+          v-for="skill in profile.skills"
+          :key="skill.id"
+          class="pl-4 pr-6 mb-8 border-l-4 border-gray-700 w-full"
+          :skill="skill"
+          :profile-id="profile.id"
+          editable
+          @create="createSkill"
+          @update="updateSkill"
+          @delete="deleteSkill"
+        />
+      </div>
+      <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center flex-row-reverse">
+        <PushButton theme="white" :disabled="!canAddNewSkill" @click="newSkill">Add skill</PushButton>
+      </div>
+    </div>
+    <div class="bg-white rounded-md shadow overflow-hidden my-8 max-w-4xl w-full">
+      <h1 class="p-8 text-3xl font-bold">
         Experience
       </h1>
       <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
@@ -174,11 +195,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Profile, Experience as ExperienceType, Education as EducationType } from '@/types/api'
+import { Profile, Experience as ExperienceType, Education as EducationType, Skill as SkillType } from '@/types/api'
 import Experience from '@/components/profile/Experience.vue'
 import Education from '@/components/profile/Education.vue'
+import Skill from "@/components/profile/Skill.vue";
 export default Vue.extend({
-  components: { Education, Experience },
+  components: {Skill, Education, Experience },
   middleware: 'auth',
   data () {
     const loading: boolean = true
@@ -195,6 +217,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    canAddNewSkill (): Boolean {
+      return (this.profile.skills[this.profile.skills.length - 1].id !== -1)
+    },
     canAddNewExperience (): Boolean {
       return (this.profile.experience[this.profile.experience.length - 1].id !== -1)
     },
@@ -209,6 +234,10 @@ export default Vue.extend({
       })
   },
   methods: {
+    logout ():void {
+      this.loading = true
+      this.$auth.logout()
+    },
     async fetchInfo (): Promise<void> {
       this.profile = (await this.$axios.get('profiles')).data
     },
@@ -240,6 +269,7 @@ export default Vue.extend({
         .then((data) => {
           this.profile = {
             ...data.data,
+            skills: this.profile.skills,
             experience: this.profile.experience,
             education: this.profile.education,
           }
@@ -332,9 +362,27 @@ export default Vue.extend({
     deleteEducation (education_id: Number): void {
       this.profile.education = this.profile.education.filter(el => el.id !== education_id)
     },
-    logout ():void {
-      this.loading = true
-      this.$auth.logout()
+    newSkill (): void {
+      this.profile.skills.push({
+        id: -1,
+        name: '',
+        years_of_experience: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      })
+    },
+    createSkill (skill: SkillType) {
+      this.profile.skills = this.profile.skills.filter(el => el.id !== -1)
+      this.profile.skills.push(skill)
+    },
+    updateSkill (skill: SkillType): void {
+      this.profile.skills = this.profile.skills.map((el) => {
+        if (el.id === skill.id) return skill
+        return el
+      })
+    },
+    deleteSkill (skill_id: Number): void {
+      this.profile.skills = this.profile.skills.filter(el => el.id !== skill_id)
     },
   },
 })

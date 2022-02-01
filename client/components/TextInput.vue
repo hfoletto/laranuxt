@@ -43,7 +43,7 @@ export default Vue.extend({
       default: () => [],
     },
     label: String,
-    modelValue: String,
+    modelValue: [String, Number],
   },
 })
 </script>

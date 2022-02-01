@@ -46,6 +46,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $photo_path
  * @property-read mixed $photo
  * @method static \Illuminate\Database\Eloquent\Builder|Profile wherePhotoPath($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Skill[] $skills
+ * @property-read int|null $skills_count
  */
 class Profile extends Model
 {
@@ -66,6 +68,11 @@ class Profile extends Model
     protected $appends = ['photo'];
 
     protected $hidden = ['photo_path'];
+
+    public function skills()
+    {
+        return $this->hasMany(Skill::class);
+    }
 
     public function experience()
     {

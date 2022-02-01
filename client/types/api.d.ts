@@ -44,8 +44,17 @@ export interface Profile {
   website_url: string | null,
   created_at: Date,
   updated_at: Date,
+  skills: Array<Skill>,
   experience: Array<Experience>,
   education: Array<Education>,
+}
+
+export interface Skill {
+  id: number,
+  name: string,
+  years_of_experience: number | null,
+  created_at: Date,
+  updated_at: Date,
 }
 
 export interface Experience {

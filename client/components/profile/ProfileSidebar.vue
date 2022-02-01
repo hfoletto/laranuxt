@@ -61,6 +61,16 @@
         :href="profile.website_url"
       />
     </div>
+
+    <div class="font-light text-lg px-2 mb-12">
+      <h2 class="text-xl font-semibold mb-4">Skills</h2>
+      <div class="ml-1">
+        <div v-for="skill in profile.skills" :key="skill.id" class="flex flex-col items-start my-4 pl-3 py-1 border-l-2">
+          <span class="font-bold">{{ skill.name }}</span>
+          <span class="opacity-80" v-if="skill.years_of_experience">{{ skill.years_of_experience }} years of experience</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

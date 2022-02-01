@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,5 +33,6 @@ Route::post('/logout', LogoutController::class);
 Route::get('/user', [UserController::class, 'me']);
 
 Route::resource('profiles', ProfileController::class);
+Route::resource('skills', SkillController::class);
 Route::resource('experiences', ExperienceController::class);
 Route::resource('educations', EducationController::class);

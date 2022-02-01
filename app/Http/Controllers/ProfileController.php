@@ -22,6 +22,7 @@ class ProfileController extends Controller
     public function index(): Response
     {
         return response(Profile::with([
+            'skills',
             'experience',
             'education'
         ])->first());
