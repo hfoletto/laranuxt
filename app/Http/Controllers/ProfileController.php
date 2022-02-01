@@ -23,7 +23,8 @@ class ProfileController extends Controller
 
     public function update(Profile $profile, Request $request): Response
     {
-        $profile->update($request->validate([
+
+        $request->validate([
             'first_name' => ['required', 'max:100'],
             'last_name' => ['required', 'max:100'],
             'job_title' => ['required', 'max:100'],
@@ -35,7 +36,17 @@ class ProfileController extends Controller
             'linkedin_url' => ['nullable', 'max:255', 'url'],
             'twitter_url' => ['nullable', 'max:255', 'url'],
             'website_url' => ['nullable', 'max:255', 'url'],
+            'photo' => ['nullable', 'image'],
+        ]);
+
+        $profile->update($request->only([
+            'first_name', 'last_name', 'job_title', 'email', 'phone_number', 'location',
+            'introduction', 'github_url', 'linkedin_url', 'twitter_url', 'website_url',
         ]));
+
+        if ($request->file('photo')) {
+            $profile->update(['photo_path' => $request->file('photo')->store('public')]);
+        }
 
         return response($profile);
     }

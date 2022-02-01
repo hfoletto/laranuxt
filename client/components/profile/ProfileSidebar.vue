@@ -5,7 +5,8 @@
   >
     <div class="px-2 mb-12">
       <img
-        src="https://i.picsum.photos/id/575/512/512.jpg?hmac=QbwYBysbuQHrAiKt2d7Emj28u3W08sNnu56-m-ZcVWo"
+        v-if="profile.photo"
+        :src="profile.photo"
         alt="Profile Picture"
         class="rounded-full w-48 mx-auto mb-2"
       />

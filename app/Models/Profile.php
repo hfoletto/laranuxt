@@ -49,9 +49,20 @@ class Profile extends Model
 
     protected $fillable = [
         'first_name', 'last_name', 'job_title', 'email',
-        'phone_number', 'location', 'introduction',
+        'phone_number', 'location', 'introduction', 'photo_path',
         'github_url', 'linkedin_url', 'twitter_url', 'website_url'
     ];
+
+    public function getPhotoAttribute()
+    {
+        return $this->photo_path
+            ? asset('storage/'.str_replace('public/', '', $this->photo_path))
+            : null;
+    }
+
+    protected $appends = ['photo'];
+
+    protected $hidden = ['photo_path'];
 
     public function experience()
     {

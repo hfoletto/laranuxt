@@ -101,4 +101,5 @@ export default {
   publicRuntimeConfig: {
     apiUrl: process.env.API_URL,
   },
+  ssr: false,
 }

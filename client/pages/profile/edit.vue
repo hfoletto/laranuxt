@@ -6,31 +6,53 @@
     </h1>
     <form class="w-full" @submit.prevent="submit">
       <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
-        <TextInput
-          id="first_name"
-          :model-value.sync="profile.first_name"
-          :errors="errors.first_name"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="First name"
-          required
-        />
-        <TextInput
-          id="last_name"
-          :model-value.sync="profile.last_name"
-          :errors="errors.last_name"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Last name"
-          required
-        />
-        <TextInput
-          id="email"
-          :model-value.sync="profile.email"
-          :errors="errors.email"
-          type="email"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Email"
-          required
-        />
+        <div class="lg:flex lg:items-center w-full">
+          <div class="w-full">
+            <ImageUpload
+              id="avatar"
+              v-model="photo"
+              :error="errors.photo"
+              class="pb-8 pr-6 w-full"
+              :current-image="profile.photo"
+              label="Photo"
+            />
+          </div>
+          <div class="w-full">
+            <TextInput
+              id="first_name"
+              :model-value.sync="profile.first_name"
+              :errors="errors.first_name"
+              class="pb-8 pr-6 w-full"
+              label="First name"
+              required
+            />
+            <TextInput
+              id="last_name"
+              :model-value.sync="profile.last_name"
+              :errors="errors.last_name"
+              class="pb-8 pr-6 w-full"
+              label="Last name"
+              required
+            />
+            <TextInput
+              id="job_title"
+              :model-value.sync="profile.job_title"
+              :errors="errors.job_title"
+              class="pb-8 pr-6 w-full"
+              label="Job Title"
+              required
+            />
+            <TextInput
+              id="email"
+              :model-value.sync="profile.email"
+              :errors="errors.email"
+              type="email"
+              class="pb-8 pr-6 w-full"
+              label="Email"
+              required
+            />
+          </div>
+        </div>
         <TextInput
           id="phone_number"
           :model-value.sync="profile.phone_number"
@@ -38,14 +60,6 @@
           type="tel"
           class="pb-8 pr-6 w-full lg:w-1/2"
           label="Phone Number"
-        />
-        <TextInput
-          id="job_title"
-          :model-value.sync="profile.job_title"
-          :errors="errors.job_title"
-          class="pb-8 pr-6 w-full lg:w-1/2"
-          label="Job Title"
-          required
         />
         <TextInput
           id="location"
@@ -60,6 +74,7 @@
           :errors="errors.introduction"
           class="pb-8 pr-6 w-full"
           label="Introduction"
+          required
         />
         <h2 class="mt-8 mb-4 w-full font-bold text-2xl">On the web</h2>
         <TextInput
@@ -114,11 +129,13 @@ export default Vue.extend({
     const submitting: boolean = false
     const profile: Profile = {} as Profile
     const errors: Object = {}
+    const photo: File | null = null
     return {
       fetching,
       submitting,
       profile,
       errors,
+      photo,
     }
   },
   mounted () {
@@ -134,9 +151,40 @@ export default Vue.extend({
     submit (): void {
       this.submitting = true
       this.errors = {}
-      this.$axios.put(`profiles/${this.profile.id}`, this.profile)
+
+      const fields_to_submit = [
+        'first_name',
+        'last_name',
+        'job_title',
+        'email',
+        'phone_number',
+        'location',
+        'introduction',
+        'github_url',
+        'linkedin_url',
+        'twitter_url',
+        'website_url',
+      ]
+
+      const form_data = new FormData()
+      form_data.append('_method', 'PUT')
+
+      fields_to_submit.forEach((key) => {
+        const value = this.profile[key as keyof Profile]
+        if (typeof value === 'string' || value instanceof Blob)
+          form_data.append(key, value)
+      })
+      if (this.photo !== null)
+        form_data.append('photo', this.photo!)
+
+      this.$axios.post(`profiles/${this.profile.id}`, form_data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
         .then((data) => {
-          console.log(data)
+          this.profile = data.data
+          this.photo = null
           this.$toast.show({
             type: 'success',
             message: 'Profile updated',

@@ -33,6 +33,7 @@ export interface Profile {
   first_name: string,
   last_name: string,
   job_title: string,
+  photo: string | null,
   email: string,
   phone_number: string | null,
   location: string | null,

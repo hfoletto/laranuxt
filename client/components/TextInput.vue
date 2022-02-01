@@ -8,7 +8,6 @@
       <input
         :id="id"
         ref="input"
-        :class="{ error: errors }"
         :required="required"
         :type="type"
         :value="modelValue"
@@ -18,7 +17,7 @@
         @input="$emit('update:modelValue', $event.target.value)"
       >
     </label>
-    <div v-if="errors" class="px-2 pt-1 text-small text-red-600 font-semibold">{{ errors.join() }}</div>
+    <div v-if="errors.length" class="px-2 pt-1 text-small text-red-600 font-semibold">{{ errors.join() }}</div>
   </div>
 </template>
 
@@ -39,7 +38,10 @@ export default Vue.extend({
       default: false,
       type: Boolean,
     },
-    errors: Array,
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     label: String,
     modelValue: String,
   },
