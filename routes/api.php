@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\EducationController;
@@ -22,6 +24,10 @@ Route::get('/', [Controller::class, 'routes'])
     ->withoutMiddleware('api');
 Route::get('/example', [Controller::class, 'example'])->name('example route');
 Route::get('/error', [Controller::class, 'error'])->name('error route');
+
+Route::post('/login', LoginController::class);
+
+Route::get('/user', [UserController::class, 'me']);
 
 Route::resource('profiles', ProfileController::class);
 Route::resource('experiences', ExperienceController::class);

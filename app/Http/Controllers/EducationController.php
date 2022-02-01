@@ -10,6 +10,12 @@ use Illuminate\Validation\Rule;
 
 class EducationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     public function store(Request $request): Response
     {
         $request->validate([

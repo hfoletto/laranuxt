@@ -168,9 +168,10 @@
 import Vue from 'vue'
 import { Profile, Experience as ExperienceType, Education as EducationType } from '@/types/api'
 import Experience from '@/components/profile/Experience.vue'
-import Education from "@/components/profile/Education.vue";
+import Education from '@/components/profile/Education.vue'
 export default Vue.extend({
-  components: {Education, Experience },
+  components: { Education, Experience },
+  middleware: 'auth',
   data () {
     const fetching: boolean = true
     const submitting: boolean = false
@@ -229,7 +230,11 @@ export default Vue.extend({
         },
       })
         .then((data) => {
-          this.profile = data.data
+          this.profile = {
+            ...data.data,
+            experience: this.profile.experience,
+            education: this.profile.education,
+          }
           this.photo = null
           this.$toast.show({
             type: 'success',

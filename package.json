@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@mdi/js": "^6.5.95",
+    "@nuxtjs/auth-next": "5.0.0-1643705077.3d7afbe",
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.15.1",
     "mdi-vue": "^3.0.12",
